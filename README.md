@@ -210,4 +210,18 @@ python test_e2e_smoke.py http://127.0.0.1:8002 /path/to/music
 
 ## 📄 许可证
 
-本项目未声明开源许可证，请勿在未授权情况下二次分发。
+本项目采用 [MIT License](LICENSE)（最宽松的开源许可证之一：可自由使用、修改、再分发与商用，仅需保留版权声明与许可声明）。
+
+```text
+MIT License · Copyright (c) 2026 qvqiiiii
+```
+
+### 第三方组件
+
+| 组件 | 许可证 | 说明 |
+| --- | --- | --- |
+| [Lyrico](https://github.com/Replica0110/Lyrico) | Apache-2.0 | 插件运行时规范与宿主生态 |
+| [Lyrico-Plugins](https://github.com/Replica0110/Lyrico-Plugins) | 仓库未声明 | 内置插件版权归原作者，随包分发时请保留原插件目录结构与作者信息 |
+| fnOS / fnpack | 飞牛官方 | 打包工具，不随仓库分发 |
+
+> 内置插件属于第三方作品，MIT 许可仅覆盖本项目自身代码。若需商用或二次分发，请先到 Lyrico-Plugins 仓库确认各插件的授权情况。
