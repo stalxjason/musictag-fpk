@@ -185,6 +185,24 @@ python test_e2e_smoke.py http://127.0.0.1:8002 /path/to/music
 
 ---
 
+## 🙏 致谢
+
+特别感谢 **[Lyrico](https://github.com/lyricoworld/Lyrico)** 项目及其作者与插件开发者。本项目通过其开放的 JavaScript 插件规范接入 Apple Music、酷狗、汽水音乐、LRCShare、MusicBrainz 等第三方数据源，感谢 Lyrico 社区提供的插件生态。
+
+| 内置插件 | 提供方 | 贡献能力 |
+| --- | --- | --- |
+| Apple Music | Lyrico 社区 | 曲目检索、高清封面、歌词 |
+| 酷狗音乐 | Lyrico 社区 | 曲目检索、KRC 歌词 |
+| 汽水音乐 | Lyrico 社区 | 曲目检索、歌词 |
+| 网易云音乐 | Lyrico 社区 | 曲目检索、LRC 歌词 |
+| QQ 音乐 | Lyrico 社区 | 曲目检索、歌词 |
+| LRCShare | Lyrico 社区 | 时间轴歌词 |
+| MusicBrainz | Lyrico 社区 | 国际元数据 |
+
+> 插件版权归各插件作者所有；本项目仅提供加载与桥接能力（`lyrico_host.js` / `lyrico_bridge.py`），不修改插件本身的授权与许可。
+
+---
+
 ## 📄 许可证
 
 本项目未声明开源许可证，请勿在未授权情况下二次分发。
