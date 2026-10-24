@@ -58,14 +58,17 @@ def _detect_version() -> str:
     return "1.0.2"
 
 APP_VERSION = _detect_version()
-# 作者名保留，但不附带外链（按发布要求下线飞牛开发者链接）
-MAINTAINER = "Fkosoft"
-MAINTAINER_URL = ""
-DISTRIBUTOR = "MusicTag"
+# 项目主页（用于 manifest 的 maintainer_url，飞牛应用中心「开发者」跳转）
+PROJECT_URL = "https://github.com/stalxjason/musictag-fpk"
+# 开发者信息：飞牛应用中心「开发者」显示 qvqiiiii，点击跳转项目主页
+MAINTAINER = "qvqiiiii"
+MAINTAINER_URL = PROJECT_URL
+DISTRIBUTOR = "qvqiiiii"
 APP_DISPLAY_NAME = "音乐标签 (MusicTag Native)"
 # 最低支持的 fnOS 版本（按官方文档要求：只声明实际测试过的兼容范围）
 OS_MIN_VERSION = "0.9.0"
-CHANGELOG = "1.0.2：修复离线依赖安装与启动稳定性问题，优化刮削与歌词写入体验。"
+CHANGELOG = "1.0.4：修复点击应用无法连接、安装卡住、授权目录识别与卡片点击异常；新增明亮/深色双主题；Lyrico 插件自动探测 Node.js。"
+
 
 def log(msg: str):
     print(f"[BUILD] {msg}")

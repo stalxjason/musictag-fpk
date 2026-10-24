@@ -187,19 +187,24 @@ python test_e2e_smoke.py http://127.0.0.1:8002 /path/to/music
 
 ## 🙏 致谢
 
-特别感谢 **[Lyrico](https://github.com/lyricoworld/Lyrico)** 项目及其作者与插件开发者。本项目通过其开放的 JavaScript 插件规范接入 Apple Music、酷狗、汽水音乐、LRCShare、MusicBrainz 等第三方数据源，感谢 Lyrico 社区提供的插件生态。
+本项目的数据源扩展能力来自以下两个开源项目，特此致谢：
 
-| 内置插件 | 提供方 | 贡献能力 |
+- **[Lyrico](https://github.com/Replica0110/Lyrico)** —— 提供插件运行时规范与宿主生态基础；
+- **[Lyrico-Plugins](https://github.com/Replica0110/Lyrico-Plugins)** —— 提供 Apple Music、酷狗、汽水音乐、网易云、QQ 音乐、LRCShare、MusicBrainz 等插件实现。
+
+感谢 **Replica0110** 与 Lyrico 社区的插件作者。本项目通过其开放的 JavaScript 插件规范接入这些数据源，并内置了部分插件（首次运行复制到应用数据目录）。
+
+| 内置插件 | 来源项目 | 提供能力 |
 | --- | --- | --- |
-| Apple Music | Lyrico 社区 | 曲目检索、高清封面、歌词 |
-| 酷狗音乐 | Lyrico 社区 | 曲目检索、KRC 歌词 |
-| 汽水音乐 | Lyrico 社区 | 曲目检索、歌词 |
-| 网易云音乐 | Lyrico 社区 | 曲目检索、LRC 歌词 |
-| QQ 音乐 | Lyrico 社区 | 曲目检索、歌词 |
-| LRCShare | Lyrico 社区 | 时间轴歌词 |
-| MusicBrainz | Lyrico 社区 | 国际元数据 |
+| Apple Music | Lyrico-Plugins | 曲目检索、高清封面、歌词 |
+| 酷狗音乐 | Lyrico-Plugins | 曲目检索、KRC 歌词 |
+| 汽水音乐 | Lyrico-Plugins | 曲目检索、歌词 |
+| 网易云音乐 | Lyrico-Plugins | 曲目检索、LRC 歌词 |
+| QQ 音乐 | Lyrico-Plugins | 曲目检索、歌词 |
+| LRCShare | Lyrico-Plugins | 时间轴歌词 |
+| MusicBrainz | Lyrico-Plugins | 国际元数据 |
 
-> 插件版权归各插件作者所有；本项目仅提供加载与桥接能力（`lyrico_host.js` / `lyrico_bridge.py`），不修改插件本身的授权与许可。
+> 插件版权归 [Lyrico-Plugins](https://github.com/Replica0110/Lyrico-Plugins) 项目及各插件作者所有；本项目仅提供加载与桥接能力（`lyrico_host.js` / `lyrico_bridge.py`），不修改插件本身的授权与许可。如需更新插件，可将新版插件目录放入应用数据目录的 `plugins/` 下，或在界面中导入 ZIP。
 
 ---
 
