@@ -1,0 +1,59 @@
+{
+  "id": "com.qqmusic.source",
+  "name": "@plugin.name",
+  "versionCode": 8,
+  "versionName": "0.4.2",
+  "author": "Replica0110",
+  "description": "@plugin.description",
+  "apiVersion": 5,
+  "includeDirs": [
+    "lib"
+  ],
+  "icon": "icon.png",
+  "entry": "source.js",
+  "capabilities": [
+    "searchSongs",
+    "getLyrics",
+    "searchCovers"
+  ],
+  "configFields": [
+    {
+      "key": "cover_size",
+      "title": "@config.cover_size.title",
+      "summary": "@config.cover_size.summary",
+      "type": "dropdown",
+      "required": true,
+      "defaultValue": "1200",
+      "options": [
+        {
+          "value": "500",
+          "label": "500 x 500"
+        },
+        {
+          "value": "800",
+          "label": "800 x 800"
+        },
+        {
+          "value": "1200",
+          "label": "1200 x 1200"
+        }
+      ]
+    },
+    {
+      "key": "replaygain",
+      "title": "@config.replaygain.title",
+      "summary": "@config.replaygain.summary",
+      "type": "switch",
+      "defaultValue": "true"
+    }
+  ],
+  "minHostApiVersion": 4,
+  "i18n": {
+    "defaultLocale": "en",
+    "resources": {
+      "en": "locales/en.json",
+      "zh-Hans": "locales/zh-Hans.json",
+      "zh-Hant": "locales/zh-Hant.json"
+    }
+  }
+}

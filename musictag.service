@@ -1,0 +1,23 @@
+[Unit]
+# 说明：fnOS 上请使用应用中心 .fpk 安装（由应用框架托管 cmd/main）。
+# 本文件仅用于非 fnOS 的 Debian/Ubuntu 本地部署，由 install.sh 自动生成等效配置。
+Description=MusicTag Native Music Tagger
+After=network.target
+
+[Service]
+Type=simple
+User=musictag
+Group=musictag
+WorkingDirectory=/opt/musictag-native
+Environment=MUSICTAG_STATE_DIR=/var/lib/musictag
+Environment=PORT=8002
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/opt/musictag-native/venv/bin/python /opt/musictag-native/server.py
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+
+[Install]
+WantedBy=multi-user.target

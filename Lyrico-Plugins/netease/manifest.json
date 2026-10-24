@@ -1,0 +1,52 @@
+{
+  "id": "com.neteasecloudmusic.source",
+  "name": "@plugin.name",
+  "versionCode": 9,
+  "versionName": "0.4.1",
+  "author": "Replica0110",
+  "description": "@plugin.description",
+  "apiVersion": 5,
+  "includeDirs": [
+    "lib"
+  ],
+  "entry": "source.js",
+  "icon": "icon.png",
+  "capabilities": [
+    "searchSongs",
+    "getLyrics",
+    "searchCovers"
+  ],
+  "minHostApiVersion": 4,
+  "configFields": [
+    {
+      "key": "comment_content",
+      "title": "@config.comment_content.title",
+      "summary": "@config.comment_content.summary",
+      "group": "@group.metadata",
+      "type": "dropdown",
+      "defaultValue": "alias",
+      "options": [
+        {
+          "value": "none",
+          "label": "@config.comment_content.option.none"
+        },
+        {
+          "value": "alias",
+          "label": "@config.comment_content.option.alias"
+        },
+        {
+          "value": "netease_163_key",
+          "label": "@config.comment_content.option.netease_163_key"
+        }
+      ]
+    }
+  ],
+  "i18n": {
+    "defaultLocale": "en",
+    "resources": {
+      "en": "locales/en.json",
+      "zh-Hans": "locales/zh-Hans.json",
+      "zh-Hant": "locales/zh-Hant.json"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+﻿# 强制脚本与源码使用 LF（Windows 上 clone/checkout 也不能改成 CRLF，
+# 否则 cmd/main、install.sh 等带着 \r 进到飞牛会直接报错）
+*.sh        text eol=lf
+*.py        text eol=lf
+*.js        text eol=lf
+*.json      text eol=lf
+*.md        text eol=lf
+*.txt       text eol=lf
+*.html      text eol=lf
+*.css       text eol=lf
+*.png       binary
+*.fpk       binary

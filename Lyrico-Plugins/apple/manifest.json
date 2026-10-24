@@ -1,0 +1,179 @@
+{
+  "id": "com.applemusic.source",
+  "name": "Apple Music",
+  "versionCode": 8,
+  "versionName": "0.4.1",
+  "author": "Replica0110",
+  "description": "@plugin.description",
+  "apiVersion": 5,
+  "includeDirs": [
+    "lib"
+  ],
+  "icon": "icon.png",
+  "entry": "source.js",
+  "capabilities": [
+    "searchSongs",
+    "getLyrics",
+    "searchCovers"
+  ],
+  "configFields": [
+    {
+      "key": "lyrics_provider_notice",
+      "title": "@config.lyrics_provider_notice.title",
+      "group": "@group.lyrics",
+      "type": "markdown",
+      "defaultValue": "@config.lyrics_provider_notice.content"
+    },
+    {
+      "key": "lyrics_provider",
+      "title": "@config.lyrics_provider.title",
+      "group": "@group.lyrics",
+      "type": "dropdown",
+      "required": true,
+      "defaultValue": "third_party",
+      "options": [
+        {
+          "value": "third_party",
+          "label": "@config.lyrics_provider.option.third_party"
+        },
+        {
+          "value": "official",
+          "label": "@config.lyrics_provider.option.official"
+        }
+      ]
+    },
+    {
+      "key": "media_user_token",
+      "title": "@config.media_user_token.title",
+      "group": "@group.lyrics",
+      "type": "password",
+      "required": true,
+      "defaultValue": "",
+      "dependency": {
+        "match": {
+          "key": "lyrics_provider",
+          "value": "official"
+        }
+      }
+    },
+    {
+      "key": "region",
+      "title": "@config.region.title",
+      "summary": "@config.region.summary",
+      "group": "@group.request",
+      "type": "dropdown",
+      "required": true,
+      "defaultValue": "cn",
+      "options": [
+        {
+          "value": "cn",
+          "label": "@config.region.option.cn",
+          "summary": "cn"
+        },
+        {
+          "value": "us",
+          "label": "@config.region.option.us",
+          "summary": "us"
+        },
+        {
+          "value": "jp",
+          "label": "@config.region.option.jp",
+          "summary": "jp"
+        },
+        {
+          "value": "kr",
+          "label": "@config.region.option.kr",
+          "summary": "kr"
+        },
+        {
+          "value": "tr",
+          "label": "@config.region.option.tr",
+          "summary": "tr"
+        },
+        {
+          "value": "hk",
+          "label": "@config.region.option.hk",
+          "summary": "hk"
+        },
+        {
+          "value": "tw",
+          "label": "@config.region.option.tw",
+          "summary": "tw"
+        }
+      ]
+    },
+    {
+      "key": "language",
+      "title": "@config.language.title",
+      "summary": "@config.language.summary",
+      "group": "@group.request",
+      "type": "dropdown",
+      "required": true,
+      "defaultValue": "zh-Hans",
+      "options": [
+        {
+          "value": "zh-Hans",
+          "label": "@config.language.option.zh-Hans",
+          "summary": "zh-Hans"
+        },
+        {
+          "value": "zh-Hant",
+          "label": "@config.language.option.zh-Hant",
+          "summary": "zh-Hant"
+        },
+        {
+          "value": "en-US",
+          "label": "@config.language.option.en-US",
+          "summary": "en-US"
+        },
+        {
+          "value": "ja-JP",
+          "label": "@config.language.option.ja-JP",
+          "summary": "ja-JP"
+        },
+        {
+          "value": "ko-KR",
+          "label": "@config.language.option.ko-KR",
+          "summary": "ko-KR"
+        },
+        {
+          "value": "tr-TR",
+          "label": "@config.language.option.tr-TR",
+          "summary": "tr-TR"
+        }
+      ]
+    },
+    {
+      "key": "cover_size",
+      "title": "@config.cover_size.title",
+      "summary": "@config.cover_size.summary",
+      "group": "@group.cover",
+      "type": "dropdown",
+      "required": true,
+      "defaultValue": "3000",
+      "options": [
+        {
+          "value": "500",
+          "label": "500 × 500"
+        },
+        {
+          "value": "1000",
+          "label": "1000 × 1000"
+        },
+        {
+          "value": "3000",
+          "label": "3000 × 3000"
+        }
+      ]
+    }
+  ],
+  "minHostApiVersion": 4,
+  "i18n": {
+    "defaultLocale": "en",
+    "resources": {
+      "en": "locales/en.json",
+      "zh-Hans": "locales/zh-Hans.json",
+      "zh-Hant": "locales/zh-Hant.json"
+    }
+  }
+}

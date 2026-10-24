@@ -1,0 +1,235 @@
+function buildCover(cover) {
+  cover = cover || {};
+  const urls = Array.isArray(cover.urls) ? cover.urls : [];
+  const domain = urls[0] || "";
+  const uri = cover.uri || "";
+
+  if (!domain || !uri) return "";
+
+  return domain.indexOf(uri) >= 0
+    ? domain
+    : domain + uri + "~c5_1400x1400.jpg";
+}
+
+function names(items, separator) {
+  return (Array.isArray(items) ? items : [])
+    .map(x => x.name || "")
+    .filter(Boolean)
+    .join(separator || "/");
+}
+
+function shareLyricsToLrc(routerData) {
+  const loaderData = (routerData || {}).loaderData || {};
+  const trackPage = loaderData.track_page || {};
+  const audioOption = trackPage.audioWithLyricsOption || {};
+  const lyrics = audioOption.lyrics || {};
+  const sentences = Array.isArray(lyrics.sentences) ? lyrics.sentences : [];
+
+  return sentences.map(function(sentence) {
+    const startMs = Math.max(0, Number(sentence.startMs || 0));
+    const minutes = Math.floor(startMs / 60000);
+    const seconds = Math.floor((startMs % 60000) / 1000);
+    const millis = Math.floor(startMs % 1000);
+    const text = (Array.isArray(sentence.words) ? sentence.words : [])
+      .map(word => String((word || {}).text || ""))
+      .join("");
+    return "[" + String(minutes).padStart(2, "0") + ":" +
+      String(seconds).padStart(2, "0") + "." +
+      String(millis).padStart(3, "0") + "]" + text;
+  }).filter(Boolean).join("\n");
+}
+
+function parseTags(track) {
+  const grouped = {};
+
+  (Array.isArray(track.tags) ? track.tags : []).forEach(tag => {
+    const category = ((tag.category || {}).name || "").toLowerCase();
+    if (!category) return;
+
+    if (!grouped[category]) grouped[category] = [];
+
+    [tag.second, tag.first].forEach(value => {
+      const name = value && value.name;
+      if (name && grouped[category].indexOf(name) < 0) {
+        grouped[category].push(name);
+      }
+    });
+  });
+
+  const result = {};
+  Object.keys(grouped).forEach(key => {
+    result[key] = grouped[key].join(" / ");
+  });
+
+  return result;
+}
+
+const SUPPORTED_TAG_FIELDS = {
+  genre: true,
+  language: true,
+  comment: true,
+  copyright: true
+};
+
+function mapTrack(track, request) {
+  const makerTeam = track.song_maker_team || track.makerTeam || {};
+  const subtitle = String(track.relation_media || track.relationMedia || "");
+  const cover = buildCover((track.album || {}).url_cover || (track.album || {}).cover);
+
+  const fields = {
+    title: String(track.name || ""),
+    artist: names(track.artists, request.separator),
+    album: String((track.album || {}).name || ""),
+    date: String(
+      track.publish_time ||
+      track.publishTime ||
+      (track.album || {}).release_date ||
+      (track.album || {}).releaseDate ||
+      ""
+    ),
+    cover_url: cover
+  };
+
+  const internal = {
+    soda_track_id: String(track.id || "")
+  };
+
+  const composers = names(makerTeam.composers, request.separator);
+  const lyricists = names(makerTeam.lyricists, request.separator);
+
+  if (composers) fields.composer = composers;
+  if (lyricists) fields.lyricist = lyricists;
+  if (subtitle) fields.comment = subtitle;
+
+  const tags = parseTags(track);
+  Object.keys(tags).forEach(key => {
+    if (SUPPORTED_TAG_FIELDS[key] && tags[key] && !fields[key]) {
+      fields[key] = tags[key];
+    }
+  });
+
+  return {
+    id: String(track.id || ""),
+    title: fields.title,
+    artist: fields.artist,
+    album: fields.album,
+    duration: Number(track.duration || 0),
+    date: fields.date,
+    picUrl: cover,
+    fields: fields,
+    internal: internal
+  };
+}
+
+function searchSongs(request) {
+  const cursor = Math.max(0, (Number(request.page || 1) - 1) * Number(request.pageSize || 20));
+
+  const root = getJson("luna/pc/search/track", {
+    q: request.keyword || "",
+    cursor: cursor,
+    search_id: randomUuid(),
+    search_method: "input",
+    debug_params: "",
+    from_search_id: "",
+    search_scene: ""
+  }, request.config || {});
+
+  const data = ((((root.result_groups || [])[0] || {}).data) || []);
+
+  return data
+    .map(item => item.entity && item.entity.track)
+    .filter(Boolean)
+    .map(track => mapTrack(track, request))
+    .filter(song => song.id && song.title);
+}
+
+function searchCovers(request) {
+  return searchSongs({
+    keyword: request.keyword,
+    page: request.page || 1,
+    pageSize: request.pageSize || 5,
+    separator: "/",
+    config: request.config || {}
+  }).filter(song => song.picUrl && song.title && song.artist && song.album && song.date);
+}
+
+function getLyricsForSong(request, song) {
+  const internal = song.internal || {};
+  const trackId = internal.soda_track_id || song.id || "";
+
+  if (!trackId) return null;
+
+  const config = request.config || {};
+  let raw = "";
+  let translatedRaw = "";
+
+  if (!hasSodaAuth(config)) {
+    try {
+      raw = shareLyricsToLrc(getShareTrackData(trackId));
+    } catch (error) {
+      Platform.log.warn("SODA", Platform.i18n.t("warn.shareLyricsFallback", String(error && error.message ? error.message : error)));
+    }
+  }
+
+  if (!raw) {
+    const root = getJson("luna/pc/track_v2", {
+      track_id: trackId,
+      media_type: "track",
+      queue_type: ""
+    }, config);
+    const lyric = root.lyric || {};
+    raw = String(lyric.content || "");
+    translatedRaw = String(((lyric.translations || {}).cn) || "");
+  }
+
+  if (!raw && !translatedRaw) return null;
+
+  const parsed = parseSodaLyrics({
+    original: raw,
+    translated: translatedRaw,
+    romanization: ""
+  });
+
+  const tags = parsed.tags || {};
+  tags.ti = tags.ti || song.title || "";
+  tags.ar = tags.ar || song.artist || "";
+  tags.al = tags.al || song.album || "";
+
+  return {
+    type: "structured",
+    tags: tags,
+    original: parsed.original || [],
+    translated: parsed.translated,
+    romanization: parsed.romanization
+  };
+}
+
+function getLyrics(request) {
+  const requestedSong = request.song || {};
+  const songs = requestedSong.id && requestedSong.id !== "local-song"
+    ? [requestedSong]
+    : searchSongs({
+        keyword: [requestedSong.title, requestedSong.artist].filter(Boolean).join(" "),
+        page: request.page || 1,
+        pageSize: request.pageSize || 5,
+        separator: "/",
+        config: request.config || {}
+      });
+
+  return songs.map(function(song) {
+    try {
+      const lyrics = getLyricsForSong(request, song);
+      const year = String(song.date || ((song.fields || {}).date) || "");
+      if (!lyrics || !song.title || !song.artist || !song.album || !year) return null;
+      lyrics.tags = lyrics.tags || {};
+      lyrics.tags.ti = String(song.title);
+      lyrics.tags.ar = String(song.artist);
+      lyrics.tags.al = String(song.album);
+      lyrics.tags.date = year;
+      return lyrics;
+    } catch (e) {
+      Platform.log.warn("SODA", Platform.i18n.t("error.lyricsCandidate", String(song.title || song.id || ""), String(e && e.message ? e.message : e)));
+      return null;
+    }
+  }).filter(Boolean);
+}

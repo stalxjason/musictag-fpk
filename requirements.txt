@@ -1,0 +1,13 @@
+# 飞牛 fnOS 原生音乐刮削服务 - 运行时依赖
+#
+# 说明：
+#   1. 所有依赖均为「离线 wheels 可覆盖」的纯 Python 包，或仅提供 manylinux x86_64 轮子，
+#      与 wheels_cache/ 中的离线包一一对应，install_callback 使用 --no-index 安装。
+#   2. 内存占用由 /proc/self/status 读取，不再依赖 psutil，避免离线安装时缺少原生轮子而失败。
+#   3. 若要切换到 ARM 设备，需要用 pip download --platform manylinux2014_aarch64
+#      --only-binary=:all: 重新生成 wheels_cache 中的二进制轮子。
+fastapi>=0.110.0,<1.0.0
+uvicorn>=0.28.0,<1.0.0
+httpx>=0.27.0,<1.0.0
+mutagen>=1.47.0,<2.0.0
+zhconv>=1.4.3

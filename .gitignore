@@ -1,0 +1,45 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.so
+.Python
+env/
+venv/
+.venv/
+.venv*/
+build/
+dist/
+sdist/
+eggs/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ---- 本机运行时状态与缓存（含本机绝对路径等隐私信息，切勿入库）----
+library_cache.json
+config.json
+auth_token
+*.tmp
+*.bak*
+*.log
+.server.*.log
+
+# ---- 飞牛打包产物与临时工作目录 ----
+build_target/
+*.fpk
+MusicTagNative.fpk
+MusicTagNative-*.fpk
+
+# ---- 飞牛官方打包工具（fnpack，约 4MB 二进制；请在 tools/ 下自行放置）----
+tools/fnpack.exe
+tools/fnpack
+
+# ---- IDE / 系统 ----
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+desktop.ini

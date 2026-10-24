@@ -1,0 +1,11 @@
+{
+  "id": "com.musictag.native",
+  "name": "音乐标签 原生版",
+  "version": "1.0.4",
+  "description": "极轻量、跨平台飞牛 NAS 原生音乐刮削与标签编辑后台服务。支持 Apple iTunes (最高3000px封面)、网易云、QQ音乐、酷我、MusicBrainz 多源高精度自动刮削，毫秒级扫描，安全写入 ID3/FLAC/WAV/OGG 标签并同步生成 .lrc 同步歌词，自带自适应 WebUI 控制台。",
+  "vendor": "MusicTag Native",
+  "category": "media",
+  "icon": "icon.png",
+  "port": 8002,
+  "protocol": "http"
+}
