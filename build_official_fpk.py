@@ -25,7 +25,21 @@ except ImportError:  # 构建机未安装 Pillow 时退化为纯标准库绘制
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 BUILD_DIR = os.path.join(PROJECT_ROOT, "build_target", "MusicTagNative")
-FNPACK_EXE = os.path.join(PROJECT_ROOT, "tools", "fnpack.exe")
+
+
+def _pick_fnpack() -> str:
+    """定位官方 fnpack：可用环境变量 FNPACK 指定，否则依次找 tools/fnpack.exe、tools/fnpack。"""
+    override = (os.environ.get("FNPACK") or "").strip().strip("'\"")
+    if override:
+        return override
+    for name in ("fnpack.exe", "fnpack"):
+        candidate = os.path.join(PROJECT_ROOT, "tools", name)
+        if os.path.isfile(candidate):
+            return candidate
+    return os.path.join(PROJECT_ROOT, "tools", "fnpack.exe")
+
+
+FNPACK_EXE = _pick_fnpack()
 WHEELS_CACHE = os.path.join(PROJECT_ROOT, "wheels_cache")
 
 # 应用版本号的唯一来源：manifest、产物文件名均由此派生

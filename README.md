@@ -146,6 +146,14 @@ python build_official_fpk.py
 
 ---
 
+## 📦 下载与发布
+
+- **安装包下载**：[Releases](https://github.com/stalxjason/musictag-fpk/releases) → 选择最新版本的 `MusicTagNative-x.y.z.fpk`（`.fpk` 不作为源码提交，仅作为 Release 附件发布）。
+- **自动构建**：推送 `v*` 形式的 tag 会触发 [.github/workflows/build-fpk.yml](.github/workflows/build-fpk.yml)，自动跑测试、打包并上传到对应的 Release；也可在 Actions 页面手动触发，仅产出构建产物。
+  - CI 需要仓库变量 `FNPACK_URL` 指向飞牛官方 `fnpack` 的 Linux 可执行文件（Settings → Variables）。
+- **本地打包**：把 `fnpack` 放到 `tools/`（Windows 为 `tools/fnpack.exe`），然后 `python build_official_fpk.py`；也可用环境变量 `FNPACK=/path/to/fnpack` 指定。
+
+---
 ## 🧪 测试
 
 ```powershell
